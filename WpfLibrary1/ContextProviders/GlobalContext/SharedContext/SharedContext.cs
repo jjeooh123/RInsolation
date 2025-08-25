@@ -12,6 +12,7 @@
         public const string ElementIds = "ElementIds";
         public const string ExecutedInsolation = "ExecutedInsolation";
         public const string CreatedElementsId = "CreatedElementsId";
+        public const string ExternalCommandData = "ExternalCommandData";
     }
 
     /// <summary>
