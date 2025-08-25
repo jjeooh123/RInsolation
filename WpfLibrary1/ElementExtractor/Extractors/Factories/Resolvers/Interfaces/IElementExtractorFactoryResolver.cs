@@ -1,8 +1,11 @@
 ﻿namespace Insolation.ElementExtractor
 {
     /// <summary>
-    /// Class encapsulating strategy-based factory selection and creation(srs?).
+    /// Class encapsulating strategy-based factory selection and creation.
     /// </summary>
+    /// <remarks>
+    /// TODO: consider SRS?.
+    /// </remarks>
     public interface IElementExtractorFactoryResolver
     {
         /// <summary>
@@ -10,7 +13,6 @@
         /// </summary>
         /// <param name="strategy">extraction strategy <see cref="ElementExtractionStrategy"/></param>
         /// <returns>Configurated <see cref="IElementExtractoFactory"/></returns>
-        /// <exception cref="NotSupportedException"></exception>
         public IElementExtractoFactory Resolve(ElementExtractionStrategy strategy);
 
     }
