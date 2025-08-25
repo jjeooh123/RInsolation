@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "WpfLibrary1": {
+      "commandName": "Project"
+    },
+    "exewithrevit": {
+      "commandName": "Executable",
+      "executablePath": "D:\\revit\\Revit 2025\\Revit.exe"
+    }
+  }
+}
