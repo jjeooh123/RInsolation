@@ -15,11 +15,8 @@ namespace Insolation.Commnads
     /// Design notes:
     /// - Each concrete command defines its extraction <see cref="ElementExtractionStrategy"/>.
     /// - Dependencies are resolved via <see cref="ElementExtractionCommandServiceProviderBase"/> (service-locator style by defaut).
-    /// - TODO: Consider wrapping each command in a higher-level wrapper that preconfigures dependencies
-    ///         and updates <see cref="ExternalCommandData"/> in a context manager 
-    ///         for retreving configurated services.
     /// </remarks>
-    public abstract class ElementExtractionCommandBase : IExternalCommand
+    public abstract class ElementExtractionCommandBase : BaseCommand
     {
         private Document doc;
         private UIDocument uidoc;
@@ -43,7 +40,7 @@ namespace Insolation.Commnads
         /// <summary>
         /// Standard Revit IExternalCommand entry point.
         /// </summary>
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        protected override Result Logic(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Init(commandData);
             if (!IsValid()) return Result.Failed;
@@ -51,7 +48,6 @@ namespace Insolation.Commnads
 
             // TODO: discard
             ShowMessage();
-            //TaskDialog.Show("TaskDialog","элемент/семейство добавленно");
 
             return Result.Succeeded;
         }
@@ -82,7 +78,7 @@ namespace Insolation.Commnads
             uidoc = commandData.Application.ActiveUIDocument;
             doc = uidoc.Document;
             selection = SelectionHelper.GetSelection(uidoc);
-            elementExtractor = ServiceProvider.GetElementExtractorFactory().Create(Strategy, doc);
+            elementExtractor = ServiceProvider.GetElementExtractorFactoryResolver().Resolve(Strategy).Create();
             globalContextManager = ServiceProvider.GetIGlobalContextManager();
         }
 

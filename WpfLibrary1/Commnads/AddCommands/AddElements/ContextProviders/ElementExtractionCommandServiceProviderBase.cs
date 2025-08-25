@@ -13,10 +13,10 @@ namespace Insolation.Commnads
     /// TODO: clearer naming.
     /// </remarks>
     public abstract class ElementExtractionCommandServiceProviderBase : IGlobalContextProvider,
-                                                          IElementExtractorFactoryProvider
+                                                          IElementExtractorFactoryResolverProvider
 
     {
         public virtual IGlobalContextManager GetIGlobalContextManager() => ServiceLocator.Get<IGlobalContextManager>();
-        public virtual IElementExtractoFactory GetElementExtractorFactory() => ServiceLocator.Get<IElementExtractoFactory>();
+        public virtual IElementExtractorFactoryResolver GetElementExtractorFactoryResolver() => ServiceLocator.Get<IElementExtractorFactoryResolver>();
     }
 }
