@@ -7,6 +7,11 @@ using Insolation.NS_SunPosition;
 using Insolation.Rendering;
 using Insolation.XYZExtractor;
 
+// TODO (for all app):
+// 1. Consider move innerFactory creation in AutoFactories
+//    from constructor to method (SRS + makes it easier to use decorators)
+//    
+
 namespace Insolation
 {
     /// <summary>

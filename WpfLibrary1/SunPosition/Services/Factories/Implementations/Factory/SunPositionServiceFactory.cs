@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Insolation.Config;
+using Insolation.XYZExtractor;
 
 namespace Insolation.NS_SunPosition
 {
@@ -12,8 +13,22 @@ namespace Insolation.NS_SunPosition
     /// </summary>
     public class SunPositionServiceFactory : ISunPositionServiceFactory
     {
+        private Configuration config;
+        private Document doc;
+
+        /// <summary>
+        /// Creates new instance of <see cref="SunPositionServiceFactory"/>
+        /// </summary>
+        /// <param name="config">Configuration object.</param>
+        /// <param name="doc">Active Revit document.</param>
+        public SunPositionServiceFactory(Configuration config, Document doc)
+        {
+            this.config = config;
+            this.doc = doc;
+        }
+
         /// <inheritdoc />
-        public ISunPositionService Create(Configuration config, Document doc)
+        public ISunPositionService Create()
         {
             DateTime calcDay = config.CalcDay;
             double GOSToffset = config.GOSToffset;

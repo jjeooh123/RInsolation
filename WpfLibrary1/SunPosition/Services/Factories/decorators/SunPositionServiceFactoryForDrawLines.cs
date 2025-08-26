@@ -1,5 +1,7 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using Insolation.Config;
+using System.Windows.Controls;
 
 namespace Insolation.NS_SunPosition
 {
@@ -10,20 +12,28 @@ namespace Insolation.NS_SunPosition
     /// <remarks>
     /// TODO: rename
     /// </remarks>
-    public class SunPositionServiceFactoryForDrawLines : ISunPositionServiceFactory
+    public class SunPositionServiceFactoryForDrawLines : AutoSunPositionServiceFactory
     {
-        private readonly ISunPositionServiceFactory innerFactory;
+        private Document doc;
+        private Configuration config;
         private readonly double fixedCompFreq;
-
+         
         /// <summary>
         /// Initializes a new decorator instance.
         /// </summary>
-        /// <param name="innerFactory">The underlying factory to wrap.</param>
         /// <param name="fixedCompFreq">The computation frequency override to apply.</param>
-        public SunPositionServiceFactoryForDrawLines(ISunPositionServiceFactory innerFactory, double fixedCompFreq)
+        public SunPositionServiceFactoryForDrawLines(double fixedCompFreq)
         {
-            this.innerFactory = innerFactory;
+            var globalContextManager = serviceProvider.GetIGlobalContextManager();
+
             this.fixedCompFreq = fixedCompFreq;
+            doc = globalContextManager
+                      .GetResult<ExternalCommandData>(SharedContextKeys.ExternalCommandData)
+                      .Application.ActiveUIDocument.Document;
+
+            config = globalContextManager.GetResult<Configuration>(SharedContextKeys.Configuration);
+
+            innerFactory = new SunPositionServiceFactory(CloneWithOverride(config), doc);
         }
 
         /// <summary>
@@ -37,9 +47,5 @@ namespace Insolation.NS_SunPosition
                                      config.GOSToffset,
                                      config.CalcDay,
                                      fixedCompFreq);
-
-        /// <inheritdoc />
-        public ISunPositionService Create(Configuration config, Document doc)
-            => innerFactory.Create(CloneWithOverride(config), doc);
     }
 }
