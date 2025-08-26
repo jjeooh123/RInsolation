@@ -8,8 +8,9 @@ namespace Insolation.InsolationCalculator
     public interface IExecutedInsolationPointServiceFactory
     {
         /// <summary>
-        /// Creates a new <see cref="IExecutedInsolationPointService"/> instance.
+        /// Creates of <see cref="IExecutedInsolationPointService"/> instance.
         /// </summary>
+        /// <returns>A configurated <see cref="IExecutedInsolationPointService"/></returns>
         IExecutedInsolationPointService Create();
     }
 }

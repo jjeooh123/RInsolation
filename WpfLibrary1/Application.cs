@@ -10,7 +10,7 @@ using Insolation.XYZExtractor;
 // TODO (for all app):
 // 1. Consider move innerFactory creation in AutoFactories
 //    from constructor to method (SRS + makes it easier to use decorators)
-//    
+// 2. In Auto factories change type of inner factory from concrete to interface.
 
 namespace Insolation
 {

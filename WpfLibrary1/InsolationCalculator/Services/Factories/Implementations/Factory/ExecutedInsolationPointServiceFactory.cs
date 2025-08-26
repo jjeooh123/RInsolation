@@ -12,6 +12,12 @@ namespace Insolation.InsolationCalculator
         private IEnumerable<ElementId> insolationPointIds;
         private View3D view3D;
 
+        /// <summary>
+        /// Creates instance of <see cref="ExecutedInsolationPointServiceFactory"/>
+        /// </summary>
+        /// <param name="doc">Active Revit document.</param>
+        /// <param name="insolationPointIds">Insolation Element collection for creating <c>ExeclusionFilter</c></param>
+        /// <param name="view3D"><c>View3D</c> for <c>ReferenceIntersector</c></param>
         public ExecutedInsolationPointServiceFactory(Document doc,
                                                       IEnumerable<ElementId> insolationPointIds,
                                                       View3D view3D)
