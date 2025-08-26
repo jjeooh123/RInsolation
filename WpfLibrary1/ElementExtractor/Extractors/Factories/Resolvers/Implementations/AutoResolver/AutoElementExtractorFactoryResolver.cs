@@ -17,19 +17,15 @@ namespace Insolation.ElementExtractor
         /// </summary>
         public virtual GlobalContextProviderBase serviceProvider { get; set; } = new DefaultContextProvider();
 
-        /// <summary>
-        /// Creates instance of <see cref="AutoElementExtractorFactoryResolver"/>
-        /// </summary>
-        public AutoElementExtractorFactoryResolver()
+        /// <inheritdoc/>
+        public IElementExtractoFactory Resolve(ElementExtractionStrategy strategy) 
         {
             document = serviceProvider.GetIGlobalContextManager()
                 .GetResult<ExternalCommandData>(SharedContextKeys.ExternalCommandData)
                 .Application.ActiveUIDocument.Document;
 
             innerFactoryResolver = new ElementExtractorFactoryResolver(document);
+            return innerFactoryResolver.Resolve(strategy);
         }
-
-        /// <inheritdoc/>
-        public IElementExtractoFactory Resolve(ElementExtractionStrategy strategy) => innerFactoryResolver.Resolve(strategy);
     }
 }

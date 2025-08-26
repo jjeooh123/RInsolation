@@ -22,10 +22,8 @@ namespace Insolation.InsolationCalculator
 
         private ExecutedInsolationPointServiceFactory innerFactory;
 
-        /// <summary>
-        /// Creates instance of <see cref="AutoExecutedInsolationPointServiceFactory"/>.
-        /// </summary>
-        public AutoExecutedInsolationPointServiceFactory()
+        ///<inheritdoc/>
+        public IExecutedInsolationPointService Create()
         {
             var globalContextManager = serviceProvider.GetIGlobalContextManager();
 
@@ -37,9 +35,7 @@ namespace Insolation.InsolationCalculator
             view3D = View3DHelper.GetView3D(document);
 
             innerFactory = new ExecutedInsolationPointServiceFactory(document, insolationPointIds, view3D);
+            return innerFactory.Create();
         }
-
-        ///<inheritdoc/>
-        public IExecutedInsolationPointService Create() => innerFactory.Create();
     }
 }

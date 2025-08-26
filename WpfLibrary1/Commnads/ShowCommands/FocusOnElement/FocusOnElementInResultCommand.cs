@@ -18,12 +18,11 @@ namespace Insolation.Commnads
     /// 3. Otherwise:
     ///     - Creates a new result window with <see cref="MainInsolationViewModel"/>.
     ///     - Displays it and highlights the selected element.
-    /// 
-    /// - TODO: Wrap this in a command wrapper that injects ExternalCommandData and dependencies into context manager
-    ///         for configurate services outer the command.
+    ///     
+    /// TODO: Window manager.
     /// </remarks>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class FocusOnElementInResultCommand : IExternalCommand
+    public class FocusOnElementInResultCommand : BaseCommand
     {
         /// <summary>
         /// Provides factories and shared services needed by the command.
@@ -37,7 +36,7 @@ namespace Insolation.Commnads
         /// <summary>
         /// Standard Revit IExternalCommand entry point.
         /// </summary>
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        protected override Result Logic(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Init(commandData);
             var selection = SelectionHelper.GetSelection(uidoc);

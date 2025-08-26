@@ -12,11 +12,9 @@ namespace Insolation.Commnads
     /// 2. Filters out invalid/deleted elements by matching UniqueId.
     /// 3. Deletes valid elements from document.
     /// 
-    /// - TODO: Wrap this in a command wrapper that injects ExternalCommandData and dependencies into context manager
-    ///         for configurate services outer the command.
     /// </remarks>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class DeleteCreatedElementsCommand : IExternalCommand
+    public class DeleteCreatedElementsCommand : BaseCommand
     {
         /// <summary>
         /// Provides factories and shared services needed by the command.
@@ -30,7 +28,7 @@ namespace Insolation.Commnads
         /// <summary>
         /// Standard Revit IExternalCommand entry point.
         /// </summary>
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        protected override Result Logic(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Init(commandData);
 

@@ -11,6 +11,7 @@ using Insolation.XYZExtractor;
 // 1. Consider move innerFactory creation in AutoFactories
 //    from constructor to method (SRS + makes it easier to use decorators)
 // 2. In Auto factories change type of inner factory from concrete to interface.
+// 3. Comment BaseCommand.Logic(...).
 
 namespace Insolation
 {
@@ -132,25 +133,25 @@ namespace Insolation
             globalContextManager.SubmitResult(SharedContextKeys.ExecutedInsolation, new List<ExecutedInsolationPoint>());
             globalContextManager.SubmitResult(SharedContextKeys.CreatedElementsId, new List<CreatedElementsInfo>());
 
-            ISunPositionServiceFactory sunPositionServiceFactory = new SunPositionServiceFactory();
-            ISunPositionServiceFactory SunPositionServiceFactoryForDrawLines = new SunPositionServiceFactoryForDrawLines(sunPositionServiceFactory, 30.0);
+            ISunPositionServiceFactory sunPositionServiceFactory = new AutoSunPositionServiceFactory();
+            ISunPositionServiceFactory SunPositionServiceFactoryForDrawLines = new SunPositionServiceFactoryForDrawLines(30.0); // !!
 
             IExecutedInsolationPointServiceFactory executedInsolationPointServiceFactory =
-                new ExecutedInsolationPointServiceFactory();
+                new AutoExecutedInsolationPointServiceFactory();
             IInsolationPointServiceFactory InsolationPointServiceFactory =
                 new InsolationPointServiceFactory();
-            ILinesDrawingServiceFactory linesDrawingServiceFactory = new LinesDrawingServiceFactory();
-            IElementExtractoFactory elementExtractorFactory = new ElementExtractorFactory();
+            ILinesDrawingServiceFactory linesDrawingServiceFactory = new AutoLinesDrawingServiceFactory();
+            IElementExtractorFactoryResolver elementExtractorFactoryResolver = new AutoElementExtractorFactoryResolver();
             //IResultWindowManager resultWindowManager = new ResultWindowManager();
 
             ServiceLocator.Register<IGlobalContextManager>(globalContextManager);
             ServiceLocator.Register<ISunPositionServiceFactory>(sunPositionServiceFactory, "SunPositionServiceFactory");
             ServiceLocator.Register<ISunPositionServiceFactory>(SunPositionServiceFactoryForDrawLines, "SunPositionServiceFactoryForDrawLines");
-
+            
             ServiceLocator.Register<IExecutedInsolationPointServiceFactory>(executedInsolationPointServiceFactory);
             ServiceLocator.Register<IInsolationPointServiceFactory>(InsolationPointServiceFactory);
             ServiceLocator.Register<ILinesDrawingServiceFactory>(linesDrawingServiceFactory);
-            ServiceLocator.Register<IElementExtractoFactory>(elementExtractorFactory);
+            ServiceLocator.Register<IElementExtractorFactoryResolver>(elementExtractorFactoryResolver);
             //ServiceLocator.Register<IResultWindowManager>(resultWindowManager);
 
         }

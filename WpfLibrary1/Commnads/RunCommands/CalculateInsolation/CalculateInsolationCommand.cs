@@ -19,16 +19,11 @@ namespace Insolation.Commnads
     /// 3. Runs insolation calculations against all sun coordinates.
     /// 4. Stores results in <see cref="IGlobalContextManager"/> for use by other commands.
     /// 
-    /// Design notes:
-    /// - Currently tightly coupled to <see cref="ServiceLocator"/> via provider.
-    /// - TODO: Wrap this in a command wrapper that injects ExternalCommandData and dependencies into context manager
-    ///         for configurate services outer the command.
-    /// - TODO: If no insolation points are found, a message should be shown.
     /// - TODO: DRY: sun-coordinate calculation logic (code repeats in <see cref="DrawSunLinesCommand"/>).
     /// - TODO: SRS: sun-coordinate calculation logic in command class.
     /// </remarks>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class CalculateInsolationCommand : IExternalCommand
+    public class CalculateInsolationCommand : BaseCommand
     {
         private Configuration config;
         private Document doc;
@@ -46,7 +41,7 @@ namespace Insolation.Commnads
         /// <summary>
         /// Standard Revit IExternalCommand entry point.
         /// </summary>
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        protected override Result Logic(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Init(commandData);
             if (!IsValid()) return Result.Failed;
@@ -123,10 +118,10 @@ namespace Insolation.Commnads
             doc = commandData.Application.ActiveUIDocument.Document;
             globalContextManager = ServiceProvider.GetIGlobalContextManager();
             config = globalContextManager.GetResult<Configuration>(SharedContextKeys.Configuration);
-            sunPositionService = ServiceProvider.GetSunPositionServiceFactory().Create(config, doc);
+            sunPositionService = ServiceProvider.GetSunPositionServiceFactory().Create();
             var insolationObjects = globalContextManager.GetResult<HashSet<ElementId>>(SharedContextKeys.ElementIds);
             view3d = View3DHelper.GetView3D(doc);
-            executedInsolationPointService = ServiceProvider.GetExecutedInsolationPointServiceFactory().Create(doc, insolationObjects, View3DHelper.GetView3D(doc));
+            executedInsolationPointService = ServiceProvider.GetExecutedInsolationPointServiceFactory().Create();
             insolationPointService = ServiceProvider.GetInsolationPointServiceFactory().Create(doc);
         }
 

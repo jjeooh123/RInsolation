@@ -17,23 +17,26 @@ namespace Insolation.NS_SunPosition
         private Document doc;
         private Configuration config;
         private readonly double fixedCompFreq;
-         
+
         /// <summary>
         /// Initializes a new decorator instance.
         /// </summary>
         /// <param name="fixedCompFreq">The computation frequency override to apply.</param>
-        public SunPositionServiceFactoryForDrawLines(double fixedCompFreq)
+        public SunPositionServiceFactoryForDrawLines(double fixedCompFreq) => this.fixedCompFreq = fixedCompFreq;
+        
+        ///<inheritdoc/>
+        public ISunPositionService Create()
         {
             var globalContextManager = serviceProvider.GetIGlobalContextManager();
 
-            this.fixedCompFreq = fixedCompFreq;
             doc = globalContextManager
-                      .GetResult<ExternalCommandData>(SharedContextKeys.ExternalCommandData)
-                      .Application.ActiveUIDocument.Document;
+                .GetResult<ExternalCommandData>(SharedContextKeys.ExternalCommandData)
+                .Application.ActiveUIDocument.Document;
 
             config = globalContextManager.GetResult<Configuration>(SharedContextKeys.Configuration);
 
             innerFactory = new SunPositionServiceFactory(CloneWithOverride(config), doc);
+            return innerFactory.Create();
         }
 
         /// <summary>
@@ -47,5 +50,6 @@ namespace Insolation.NS_SunPosition
                                      config.GOSToffset,
                                      config.CalcDay,
                                      fixedCompFreq);
+
     }
 }

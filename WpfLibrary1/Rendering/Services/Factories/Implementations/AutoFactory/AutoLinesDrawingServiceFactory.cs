@@ -22,10 +22,8 @@ namespace Insolation.Rendering
 
         private ILinesDrawingServiceFactory innerFactory;
 
-        /// <summary>
-        /// Creates instance of <see cref="AutoLinesDrawingServiceFactory"/>.
-        /// </summary>
-        public AutoLinesDrawingServiceFactory()
+        /// <inheritdoc/>
+        public ILinesDrawingService Create()
         {
             var globalContextManager = serviceProvider.GetIGlobalContextManager();
 
@@ -37,9 +35,7 @@ namespace Insolation.Rendering
             view3D = View3DHelper.GetView3D(doc);
 
             innerFactory = new LinesDrawingServiceFactory(doc, insolationPointIds, view3D);
+            return innerFactory.Create();
         }
-
-        /// <inheritdoc/>
-        public ILinesDrawingService Create() => innerFactory.Create();
     }
 }

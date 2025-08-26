@@ -14,11 +14,9 @@ namespace Insolation.Commnads
     /// 2. Wraps configuration in a <see cref="ConfigurationViewModel"/>.
     /// 3. Displays <see cref="ConfigurationView"/> as a modal dialog.
     /// 
-    /// - TODO: Wrap this in a command wrapper that injects ExternalCommandData and dependencies into context manager
-    ///         for configurate services outer the command.
     /// </remarks>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class ShowSettingwindowCommand : IExternalCommand
+    public class ShowSettingwindowCommand : BaseCommand
     {
         private Configuration config;
 
@@ -30,7 +28,7 @@ namespace Insolation.Commnads
         /// <summary>
         /// Standard Revit IExternalCommand entry point.
         /// </summary>
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        protected override Result Logic(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Init();
             ConfigurationViewModel viewModel = new ConfigurationViewModel(config);

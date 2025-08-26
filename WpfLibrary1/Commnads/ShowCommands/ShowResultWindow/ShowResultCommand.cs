@@ -15,11 +15,10 @@ namespace Insolation.Commnads
     /// 2. If not -> creates <see cref="MainInsolationViewModel"/> and opens <see cref="ExecutedInsolationWindowView"/>.
     /// 3. Otherwise → activates existing window.
     /// 
-    /// - TODO: Wrap this in a command wrapper that injects ExternalCommandData and dependencies into context manager
-    ///         for configurate services outer the command.
+    /// - TODO: Window manager.
     /// </remarks>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public class ShowResultCommand : IExternalCommand
+    public class ShowResultCommand : BaseCommand
     {
         /// <summary>
         /// Provides factories and shared services needed by the command.
@@ -33,7 +32,7 @@ namespace Insolation.Commnads
         /// <summary>
         /// Standard Revit IExternalCommand entry point.
         /// </summary>
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        protected override Result Logic(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Init(commandData);
 

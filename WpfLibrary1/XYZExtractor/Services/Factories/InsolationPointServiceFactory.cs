@@ -14,8 +14,8 @@ namespace Insolation.XYZExtractor
         /// <inheritdoc/>
         public IInsolationPointService Create(Document document)
         {
-            IXYZExtractorFactory XYZExtractorFactory = new XYZExtractorFactory(document);
-            IXYZExtractorProvider XYZExtractorProvider = new XYZExtractorCache(XYZExtractorFactory);
+            IXYZExtractorFactoryResolver XYZExtractorFactoryResolver = new XYZExtractorFactoryResolver(document);
+            IXYZExtractorProvider XYZExtractorProvider = new XYZExtractorCache(XYZExtractorFactoryResolver);
             IXYZExtractionStrategyResolver extractionStrategyResolver = new XYZExtractionStrategyResolver();
             
             return new InsolationPointService(document, XYZExtractorProvider, extractionStrategyResolver);

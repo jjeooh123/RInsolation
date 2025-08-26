@@ -21,10 +21,8 @@ namespace Insolation.NS_SunPosition
 
         protected SunPositionServiceFactory innerFactory;
 
-        /// <summary>
-        /// Creates instance of <see cref="AutoSunPositionServiceFactory"/>.
-        /// </summary>
-        public AutoSunPositionServiceFactory()
+        ///<inheritdoc/>
+        public ISunPositionService Create()
         {
             var globalContextManager = serviceProvider.GetIGlobalContextManager();
 
@@ -35,9 +33,7 @@ namespace Insolation.NS_SunPosition
             config = globalContextManager.GetResult<Configuration>(SharedContextKeys.Configuration);
 
             innerFactory = new SunPositionServiceFactory(config, doc);
-        }
-
-        ///<inheritdoc/>
-        public ISunPositionService Create() => innerFactory.Create();
+            return innerFactory.Create();
+        } 
     }
 }
