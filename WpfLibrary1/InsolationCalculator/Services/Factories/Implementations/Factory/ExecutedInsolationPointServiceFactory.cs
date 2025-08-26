@@ -6,16 +6,25 @@ namespace Insolation.InsolationCalculator
     /// factory for creating <see cref="IExecutedInsolationPointService"/> instances,
     /// assembling dependencies such as filters, intersection services, and calculators.
     /// </summary>
-    /// <remarks>
-    /// TODO: consider Create(void), moving dependencies into contructor,
-    /// consider inject ReferenceIntersector, not creating it.
-    /// </remarks>
     public class ExecutedInsolationPointServiceFactory : IExecutedInsolationPointServiceFactory
     {
-        /// <inheritdoc />
-        public IExecutedInsolationPointService Create(Document doc,
+        private Document doc;
+        private IEnumerable<ElementId> insolationPointIds;
+        private View3D view3D;
+
+        public ExecutedInsolationPointServiceFactory(Document doc,
                                                       IEnumerable<ElementId> insolationPointIds,
                                                       View3D view3D)
+        {
+            this.doc = doc;
+            this.insolationPointIds = insolationPointIds;
+            this.view3D = view3D;
+        }
+
+        /// <inheritdoc />
+        /// <exception cref="NullReferenceException">Thrown when active Revit document is <c>null</c>, 
+        /// insolation point's collection is empty or view3d is null</exception>
+        public IExecutedInsolationPointService Create()
         {
             // Validate input before constructing service dependencies.
             if (doc != null && insolationPointIds.Count() != 0 && view3D != null)
@@ -30,7 +39,7 @@ namespace Insolation.InsolationCalculator
                 IInsolationCalculator insolationCalculator = new InsolationCalculator(insolationStrategy);
                 return new ExecutedInsolationPointService(insolationCalculator);
             }
-            else return null;
+            else throw new NullReferenceException();
         }
     }
 }
