@@ -33,7 +33,7 @@ namespace Insolation.InsolationCalculator
         public IExecutedInsolationPointService Create()
         {
             // Validate input before constructing service dependencies.
-            if (doc != null && insolationPointIds.Count() != 0 && view3D != null)
+            if (doc != null && view3D != null)
             {
                 IElementFilterFactory execlusionFilterFactory = new ExeclusionFilterFactory(doc, insolationPointIds);
                 ReferenceIntersector referenceIntersector = new ReferenceIntersector(
