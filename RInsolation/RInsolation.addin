@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
 	<AddIn Type="Application">
-		<Name>Insolation</Name>
-		<Assembly>Insolation.dll</Assembly>
+		<Name>RInsolation</Name>
+		<Assembly>RInsolation/RInsolation.dll</Assembly>
 		<ClientId>2a66f35e-e1ce-469d-9f92-c33ac995f29d</ClientId>
 		<FullClassName>Insolation.Application</FullClassName>
 		<VendorId>PlaceHolder</VendorId>
